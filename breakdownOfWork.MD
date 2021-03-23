@@ -22,11 +22,18 @@ I also needed to research on Youtube and Google the following things:
 4. <https://stackoverflow.com/questions/16781294/passport-js-passport-initialize-middleware-not-in-use>
 5. <https://stackoverflow.com/questions/19948816/passport-js-error-failed-to-serialize-user-into-session>
 
+March 23/2021
 Mo:
 I worked on the following tasks:
-1. <Insert Some Task Here> - This task is responsible for xyz functionality.
-2. <Insert Some Task Here> - This task is responsible for xyz functionality.
-3. <Insert Some Task Here> - This task is responsible for xyz functionality.
+1. <added gitignore> - This task is responsible for ignoring node_module folders.
+2. <added registration function> - Allows new registerers to register a new login email and password.
+3. <added function to check if the user already has a login> - This task is responsible for redirecting the user attempting to register but already is registered.
+
+research done for this portion:
+1. https://stackoverflow.com/questions/7042340/error-cant-set-headers-after-they-are-sent-to-the-client
+2. https://www.w3schools.com/jsref/jsref_split.asp
+3. https://stackoverflow.com/questions/1168807/how-can-i-add-a-key-value-pair-to-a-javascript-object
+4. https://usefulangle.com/post/93/nodejs-post-parameters
 
 Akino:
 I worked on the following tasks:
