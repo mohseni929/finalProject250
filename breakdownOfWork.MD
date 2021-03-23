@@ -30,12 +30,9 @@ I worked on the following tasks:
 
 Akino:
 I worked on the following tasks:
-1. <Insert Some Task Here> - This task is responsible for xyz functionality.
-2. <Insert Some Task Here> - This task is responsible for xyz functionality.
-3. <Insert Some Task Here> - This task is responsible for xyz functionality.
+1. <Added update functions to reminder_constroll> - This task is responsible for edit reminder function.
 
 Atoosa:
 I worked on the following tasks:
-1. <Insert Some Task Here> - This task is responsible for xyz functionality.
-2. <Insert Some Task Here> - This task is responsible for xyz functionality.
-3. <Insert Some Task Here> - This task is responsible for xyz functionality.
+1. <Added deltete functions to reminder_constroll> - This task is responsible fo delete reminder function.
+

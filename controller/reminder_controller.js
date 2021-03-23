@@ -41,11 +41,22 @@ let remindersController = {
   },
 
   update: (req, res) => {
-    // implement this code
+    const updateRemIndex = req.user[1]['reminders'].findIndex(reminder => reminder.id == req.params.id)
+
+    req.user[1]['reminders'][updateRemIndex].title = req.body.title
+    req.user[1]['reminders'][updateRemIndex].title = req.body.description
+    if (req.body.completed.toLowerCase() === 'true') {
+      req.user[1]['reminders'][updateRemIndex].completed = true
+    } else {
+      req.user[1]['reminders'][updateRemIndex].completed = false
+    }
+    res.redirect("/reminders");
   },
 
   delete: (req, res) => {
-    // Implement this code
+    const deleteRemIndex = req.user[1]['reminders'].findIndex(reminder => reminder.id == req.params.id)
+    req.user[1]['reminders'].splice(deleteRemIndex, 1);
+    res.redirect("/reminders");
   },
 };
 
