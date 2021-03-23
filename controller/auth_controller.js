@@ -1,4 +1,4 @@
-let database = require("../database");
+let database = require("../database").Database;
 
 let authController = {
   login: (req, res) => {
@@ -10,7 +10,7 @@ let authController = {
   },
 
   loginSubmit: (req, res) => {
-    // implement
+    res.render("reminder/index", { reminders: req.user[1]['reminders'] })
   },
 
   registerSubmit: (req, res) => {
