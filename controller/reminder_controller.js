@@ -44,7 +44,7 @@ let remindersController = {
     const updateRemIndex = req.user[1]['reminders'].findIndex(reminder => reminder.id == req.params.id)
 
     req.user[1]['reminders'][updateRemIndex].title = req.body.title
-    req.user[1]['reminders'][updateRemIndex].title = req.body.description
+    req.user[1]['reminders'][updateRemIndex].description = req.body.description
     if (req.body.completed.toLowerCase() === 'true') {
       req.user[1]['reminders'][updateRemIndex].completed = true
     } else {
