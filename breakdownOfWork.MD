@@ -35,11 +35,26 @@ research done for this portion:
 3. https://stackoverflow.com/questions/1168807/how-can-i-add-a-key-value-pair-to-a-javascript-object
 4. https://usefulangle.com/post/93/nodejs-post-parameters
 
+March 23th
 Akino:
 I worked on the following tasks:
 1. <Added update functions to reminder_constroll> - This task is responsible for edit reminder function.
 
+March 23th
 Atoosa:
 I worked on the following tasks:
 1. <Added deltete functions to reminder_constroll> - This task is responsible fo delete reminder function.
 
+March 31th
+Akino:
+I worked on the following tasks:
+1. <Modified database.js> - This task is responsible for subtask functionality.
+2. <Modified single-reminder.ejs> - This task is responsible for showing subtasks.
+3. <Added viewSub function to reminder_controller.js> - This taks is responsible for showing subtasks.
+4. <Added subtask route to index.js> - This taks is responsible for showing subtasks.
+5. <Modified edit.ejs> - This task is resposible for editing subtasks
+6. <Modified edit function in reminder_controller.js> - This taks is responsible for editing subtasks.
+7. <Modified edit route in index.js> - This taks is responsible for editing subtasks.
+5. <Modified edit.ejs> - This task is resposible for updating subtasks
+6. <Modified update function in reminder_controller.js> - This taks is responsible for updating subtasks.
+7. <Modified update route in index.js> - This taks is responsible for updating subtasks.

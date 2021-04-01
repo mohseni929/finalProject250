@@ -2,8 +2,20 @@ let Database = {
     cindy: {
         id: 1,
         email: "cindy@gmail.com",
-        password: "cindy!",
-        reminders: [{id: 1, title: "abc", description: "abcabc", completed: false}]
+        password: "cindy123!",
+        reminders: [{id: 1,
+                    title: "abc",
+                    description: "abcabc",
+                    completed: false,
+                    subtasks: [{id: 1001,title: "subtask1", description: "abcabc", completed: false,},
+                              {id: 1002,title: "subtask2", description: "abcabc", completed: false,}]
+                    },
+                    {id: 2,
+                     title: "abcdefg",
+                     description: "abcabc",
+                     completed: false,
+                    }
+                   ]
     },
     alex: {
         id: 2,

@@ -41,15 +41,16 @@ app.get("/reminder/new", ensureAuthenticated, reminderController.new);
 
 app.get("/reminder/:id", ensureAuthenticated, reminderController.listOne);
 
-app.get("/reminder/:id/edit", ensureAuthenticated, reminderController.edit);
+app.get("/reminder/:id/:subid", ensureAuthenticated, reminderController.viewSub);
+
+app.get("/reminder/edit/:id/:subid", ensureAuthenticated, reminderController.edit);
 
 app.post("/reminder/", ensureAuthenticated, reminderController.create);
 
-// Implement this yourself
-app.post("/reminder/update/:id", ensureAuthenticated, reminderController.update);
+app.post("/reminder/update/:id/:subid", ensureAuthenticated, reminderController.update);;
 
-// Implement this yourself
 app.post("/reminder/delete/:id", ensureAuthenticated, reminderController.delete);
+
 
 // Fix this to work with passport! The registration does not need to work, you can use the fake database for this.
 app.get("/register", authController.register);

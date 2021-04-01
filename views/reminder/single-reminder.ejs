@@ -3,6 +3,9 @@
 
     <ul class="list-group">
       <li class="list-group-item">
+        <% if (parentItem !== null) { %>
+          <h3><a href=<%= "/reminder/" + parentItem.id %>><%= parentItem.title %></a> > </h3>
+        <% } %>
         <h3><strong><%= reminderItem.title %>: </strong></h3>
         <h4><%= reminderItem.description %></h4>
         <h4>Completed:
@@ -12,8 +15,32 @@
             <span class="label label-danger">False</span>
           <% } %>
         </h4>
+        
+        <!-- if the remider is not a subtask, show the subtasks -->
+        <% if (parentItem == null) { %>
+          <h4>Subtasks</h4>
+          <% if (reminderItem.subtasks) { %>
+            <ul>
+              <% for (task of reminderItem.subtasks) { %>
+                  <li>
+                    <a href=<%= "/reminder/" + reminderItem.id + "/" + task.id %>><%= task.title %></a> | <%= task.description %>
+                  </li>
+              <% } %>
+              </ul>
+          <% } %>
+        <% } %>
 
-        <a class="btn btn-warning" href=<%= "/reminder/" + reminderItem.id + "/edit" %>>Edit</a>
+        <!-- -->
+        <!-- <a class="btn btn-warning" href="/reminder/edit?id=1&subid=1001">Edit</a> -->
+        <!-- <a class="btn btn-warning" href="/reminder/edit/1/1001">Edit</a> -->
+        <% if (parentItem == null) { %>
+          <a class="btn btn-warning" href=<%= "/reminder/edit/" + reminderItem.id  + "/0" %>>Edit</a>
+        <% } else { %>
+          <a class="btn btn-warning" href=<%= "/reminder/edit/" + parentItem.id + "/" + reminderItem.id %>>Edit</a>
+          <% param = "?id=" + parentItem.id + "&subid=" + reminderItem.id %>
+        <% } %>
+        
+        <!-- <a class="btn btn-warning" href=<%= "/reminder/" + reminderItem.id + "/edit" %>>Edit</a> -->
 
         <form class="deleteForm "method="POST" action=<%= "/reminder/delete/" + reminderItem.id %>>
           <button type="submit" class="btn btn-danger">Delete</button>
