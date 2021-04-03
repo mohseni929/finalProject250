@@ -21,7 +21,7 @@ let Database = {
         id: 2,
         email: "alex@gmail.com",
         password: "alex!",
-        reminders: [{id: 2, title: "test", description: "testing", completed: false}]
+        reminders: [{id: 2, title: "test", description: "testing", completed: false, subtasks: []}]
     }
 }
 

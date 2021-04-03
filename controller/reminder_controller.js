@@ -6,9 +6,12 @@ let remindersController = {
   },
 
   new: (req, res) => {
-    res.render("reminder/create");
+    res.render("reminder/create", { parentId: null});
   },
-
+  newSub: (req, res) => {
+    let parentId = req.params.id
+    res.render("reminder/create", { parentId: parentId});
+  },
   listOne: (req, res) => {
     let reminderToFind = req.params.id;
     
@@ -39,14 +42,29 @@ let remindersController = {
   },
 
   create: (req, res) => {
-    let reminder = {
-      id: req.user[1]['reminders'].length + 1,
-      title: req.body.title,
-      description: req.body.description,
-      completed: false,
-    };
-    req.user[1]['reminders'].push(reminder);
-    res.redirect("/reminders");
+    const parentId = req.body.parentId
+    const idx = req.user[1]['reminders'].findIndex(reminder => reminder.id == parentId)
+    if (parentId) {
+      let subReminder = {
+        id: parseInt(parentId + ('000' + (req.user[1]['reminders'][idx]['subtasks'].length + 1)).slice(-3)),
+        title: req.body.title,
+        description: req.body.description,
+        completed: false,
+      }
+      req.user[1]['reminders'][idx]['subtasks'].push(subReminder);
+      console.log(req.user[1]['reminders'][idx]['subtasks'])
+      res.redirect("/reminder/" + parentId);
+    } else {
+      let reminder = {
+        id: req.user[1]['reminders'].length + 1,
+        title: req.body.title,
+        description: req.body.description,
+        completed: false,
+        subtasks: [],
+      };
+      req.user[1]['reminders'].push(reminder);
+      res.redirect("/reminders");
+    }
   },
 
   edit: (req, res) => {

@@ -20,27 +20,26 @@
         <% if (parentItem == null) { %>
           <h4>Subtasks</h4>
           <% if (reminderItem.subtasks) { %>
-            <ul>
+            <ul class="list-group">
               <% for (task of reminderItem.subtasks) { %>
-                  <li>
-                    <a href=<%= "/reminder/" + reminderItem.id + "/" + task.id %>><%= task.title %></a> | <%= task.description %>
+                  <li class="list-group-item">
+                    <a href=<%= "/reminder/" + reminderItem.id + "/" + task.id %>><%= task.title %></a> | <%= task.description %>  
+                    <% if (task.completed) { %>
+                      (Completed)
+                    <% } %>
                   </li>
               <% } %>
               </ul>
           <% } %>
         <% } %>
 
-        <!-- -->
-        <!-- <a class="btn btn-warning" href="/reminder/edit?id=1&subid=1001">Edit</a> -->
-        <!-- <a class="btn btn-warning" href="/reminder/edit/1/1001">Edit</a> -->
         <% if (parentItem == null) { %>
           <a class="btn btn-warning" href=<%= "/reminder/edit/" + reminderItem.id  + "/0" %>>Edit</a>
         <% } else { %>
           <a class="btn btn-warning" href=<%= "/reminder/edit/" + parentItem.id + "/" + reminderItem.id %>>Edit</a>
           <% param = "?id=" + parentItem.id + "&subid=" + reminderItem.id %>
         <% } %>
-        
-        <!-- <a class="btn btn-warning" href=<%= "/reminder/" + reminderItem.id + "/edit" %>>Edit</a> -->
+
 
         <form class="deleteForm "method="POST" action=<%= "/reminder/delete/" + reminderItem.id %>>
           <button type="submit" class="btn btn-danger">Delete</button>

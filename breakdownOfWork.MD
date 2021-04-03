@@ -58,3 +58,16 @@ I worked on the following tasks:
 5. <Modified edit.ejs> - This task is resposible for updating subtasks
 6. <Modified update function in reminder_controller.js> - This taks is responsible for updating subtasks.
 7. <Modified update route in index.js> - This taks is responsible for updating subtasks.
+
+April 3rd
+Akino
+I worked on the following tasks:
+1. <Modified create.ejs> - This task is resposible for creating subtasks
+2. <Added newSub function in reminder_controller.js> - This taks is responsible for creating subtasks.
+3. <Modified create function in reminder_controller.js> - This taks is responsible for creating subtasks.
+4. <Added newSub route in index.js> - This taks is responsible for creating subtasks.
+I also needed to research on Google the following things:
+1. https://getbootstrap.com/docs/4.5/components/list-group/
+
+
+

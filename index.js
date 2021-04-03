@@ -39,6 +39,8 @@ app.get("/reminders", ensureAuthenticated, reminderController.list);
 
 app.get("/reminder/new", ensureAuthenticated, reminderController.new);
 
+app.get("/reminder/newSub/:id", ensureAuthenticated, reminderController.newSub);
+
 app.get("/reminder/:id", ensureAuthenticated, reminderController.listOne);
 
 app.get("/reminder/:id/:subid", ensureAuthenticated, reminderController.viewSub);
@@ -46,6 +48,8 @@ app.get("/reminder/:id/:subid", ensureAuthenticated, reminderController.viewSub)
 app.get("/reminder/edit/:id/:subid", ensureAuthenticated, reminderController.edit);
 
 app.post("/reminder/", ensureAuthenticated, reminderController.create);
+
+// app.post("/reminder/", ensureAuthenticated, reminderController.createSub);
 
 app.post("/reminder/update/:id/:subid", ensureAuthenticated, reminderController.update);;
 
