@@ -1,0 +1,19 @@
+<br>
+<div class="container">
+  <h3 class="page-header">Add Friend</h3>
+  <form action="friends" method="POST">
+    <input type="text" placeholder="Enter Friend Email" name="email">
+    <button type="submit">Send</button>
+  </form>
+  <br>
+  <br>
+  <h3>Friend List</h3>
+  <ul class="list-group">
+    <% friends.forEach(function (friendItem) { %>
+      <li class="list-group-item">
+        <strong><%= friendItem %> </strong>
+      </li>
+    <% }) %>
+  </ul>
+
+</div>

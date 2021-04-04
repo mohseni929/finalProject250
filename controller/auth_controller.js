@@ -9,10 +9,6 @@ let authController = {
     res.render("auth/register");
   },
 
-  loginSubmit: (req, res) => {
-    res.render("reminder/index", { reminders: req.user[1]['reminders'] })
-  },
-
   registerSubmit: (req, res) => {
     let user = req.body.email;
     let password = req.body.password;

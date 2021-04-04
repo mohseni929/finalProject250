@@ -4,8 +4,8 @@ let Database = {
         email: "cindy@gmail.com",
         password: "cindy123!",
         reminders: [{id: 1,
-                    title: "abc",
-                    description: "abcabc",
+                    title: "Cindy",
+                    description: "Chicken Nuggets",
                     completed: false,
                     subtasks: [{id: 1001,title: "subtask1", description: "abcabc", completed: false,},
                               {id: 1002,title: "subtask2", description: "abcabc", completed: false,}]
@@ -15,13 +15,32 @@ let Database = {
                      description: "abcabc",
                      completed: false,
                     }
-                   ]
+                   ],
+        friends: ["alex@gmail.com", "jonathan@gmail.com"]
     },
+
     alex: {
         id: 2,
         email: "alex@gmail.com",
         password: "alex!",
-        reminders: [{id: 2, title: "test", description: "testing", completed: false, subtasks: []}]
+        reminders: [{id: 2, title: "Alex", description: "Soccer", completed: false, subtasks: []}],
+        friends: ["cindy@gmail.com"]
+    },
+
+    jonathan: {
+        id: 2,
+        email: "jonathan@gmail.com",
+        password: "alex!",
+        reminders: [{id: 2, title: "Jonathan", description: "Dabbing Ninja", completed: false, subtasks: []}],
+        friends: ["cindy@gmail.com","timmy@gmail.com"]
+    },
+
+    timmy: {
+        id: 2,
+        email: "timmy@gmail.com",
+        password: "alex!",
+        reminders: [{id: 2, title: "Timmy", description: "Watermelon", completed: false, subtasks: []}],
+        friends: ["jonathan@gmail.com"]
     }
 }
 
@@ -42,6 +61,17 @@ const userModel = {
         }
         throw new Error(`Couldn't find user with email: ${id}`);
     },
+    findFriend: (friendList) => {
+        reminderList = []
+        for (friend of friendList) {
+            for (user of Object.values(Database)) {
+                if (friend == user["email"]) {
+                    reminderList.push(user["reminders"])
+                }
+            }
+        }
+        return reminderList
+    }
 }
 
 module.exports = { Database, userModel };

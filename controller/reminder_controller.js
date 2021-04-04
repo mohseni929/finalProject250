@@ -1,8 +1,11 @@
 let database = require("../database").Database;
+let userModel = require("../database").userModel;
 
 let remindersController = {
   list: (req, res) => {
-    res.render("reminder/index", { reminders: req.user[1]['reminders'] });
+    frReminders = userModel.findFriend(req.user[1]['friends'])
+    console.log(frReminders)
+    res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders });
   },
 
   new: (req, res) => {
@@ -21,7 +24,8 @@ let remindersController = {
     if (searchResult != undefined) {
       res.render("reminder/single-reminder", { reminderItem: searchResult, parentItem: null});
     } else {
-      res.render("reminder/index", { reminders: req.user[1]['reminders'] });
+      frReminders = userModel.findFriend(req.user[1]['friends'])
+      res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders });
     }
   },
 
@@ -37,7 +41,8 @@ let remindersController = {
         res.render("reminder/single-reminder", { reminderItem: subtask, parentItem: reminder});
       }
     } else {
-      res.render("reminder/index", { reminders: req.user[1]['reminders'] });
+      frReminders = userModel.findFriend(req.user[1]['friends'])
+      res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders });
     }
   },
 
@@ -116,6 +121,21 @@ let remindersController = {
     const deleteRemIndex = req.user[1]['reminders'].findIndex(reminder => reminder.id == req.params.id)
     req.user[1]['reminders'].splice(deleteRemIndex, 1);
     res.redirect("/reminders");
+  },
+
+  friendList: (req, res) => {
+    res.render("friend/index", { friends: req.user[1]['friends'] });
+  },
+
+  addFr: (req, res) => {
+    console.log(req.body["email"])
+    for (user of Object.values(database)) {
+      if (user["email"] == req.body["email"] && req.user[1]["friends"].includes(req.body["email"]) == false) {
+        req.user[1]['friends'].push(req.body["email"])
+        res.render("friend/index", { friends: req.user[1]['friends'] });
+      }
+    }
+    console.log(Object.values(database))
   },
 };
 

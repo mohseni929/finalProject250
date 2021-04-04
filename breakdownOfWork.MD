@@ -70,4 +70,13 @@ I also needed to research on Google the following things:
 1. https://getbootstrap.com/docs/4.5/components/list-group/
 
 
+April 4th (Social Reminders completed)
+Markus
+I worked on the following tasks:
+1. <Added friend/index.ejs> - This task is responsible for adding and viewing user friends.
+2. <Modified partials/navbar.ejs> - This task is responsible for redirecting users to friend/index.ejs
+3. <Modified auth_controller> - Removed loginSubmit, it was redundant code.
+4. <Modified index.js> - Changed code to accommodate for removal of loginSubmit
+5. <Modified database.js> - Added new friend list to users and new functions to return friend reminders.
+6. <Modified reminder_controller> - When constructing index.ejs, friend reminders are sent as a variable.
 
