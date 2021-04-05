@@ -15,6 +15,7 @@ let Database = {
                      title: "abcdefg",
                      description: "abcabc",
                      completed: false,
+                     subtasks: [],
                      tags:["CIT", "Term1"]
                     }
                    ],
@@ -25,7 +26,7 @@ let Database = {
         id: 2,
         email: "alex@gmail.com",
         password: "alex!",
-        reminders: [{id: 2, title: "Alex", description: "Soccer", completed: false, subtasks: []}],
+        reminders: [{id: 2, title: "Alex", description: "Soccer", completed: false, subtasks: [], tags:[]}],
         friends: ["cindy@gmail.com"]
     },
 
@@ -33,7 +34,7 @@ let Database = {
         id: 2,
         email: "jonathan@gmail.com",
         password: "alex!",
-        reminders: [{id: 2, title: "Jonathan", description: "Dabbing Ninja", completed: false, subtasks: []}],
+        reminders: [{id: 2, title: "Jonathan", description: "Dabbing Ninja", completed: false, subtasks: [], tags:["CIT", "ACIT2520"]}],
         friends: ["cindy@gmail.com","timmy@gmail.com"]
     },
 
@@ -41,7 +42,7 @@ let Database = {
         id: 2,
         email: "timmy@gmail.com",
         password: "alex!",
-        reminders: [{id: 2, title: "Timmy", description: "Watermelon", completed: false, subtasks: []}],
+        reminders: [{id: 2, title: "Timmy", description: "Watermelon", completed: false, subtasks: [], tags:[]}],
         friends: ["jonathan@gmail.com"]
     }
 }

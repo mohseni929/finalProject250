@@ -87,5 +87,7 @@ I worked on the following tasks:
 2. <Modified create function in reminder_controller.js> - This task is respoisible for tag functionality.
 3. <Modified tag-view class in style.css> - This task is responsible for displaying tags.
 4. <Modified single-reminder.ejs> - This task is responsible for displaying tags.
-
+5. <Modified update function in reminder_controller.js> - This task is responsible for editing tags.
+6. <Modified edit.ejs> - This task is responsible for editing tags.
+7. <Modified index.ejs> - This task is responsible for displaying tags.
 

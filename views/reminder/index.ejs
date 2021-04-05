@@ -4,6 +4,7 @@
   <ul class="list-group">
     <% reminders.forEach(function (reminderItem) { %>
       <li class="list-group-item">
+        <p>
         <strong><%= reminderItem.title %>: </strong>
         <%= reminderItem.description %>
         || Completed:
@@ -13,6 +14,11 @@
           <span class="badge badge-danger">False</span>
         <% } %>
         <a class="pull-right" href=<%= "/reminder/" + reminderItem.id %>>View</a>
+        <p>
+          <% for (tag of reminderItem.tags) { %>
+            <span class="tag-view"><%= tag %></span>
+          <% } %>
+        </p>
       </li>
     <% }) %>
   </ul>
@@ -26,15 +32,23 @@
     <% groupReminders.forEach(function (friendReminders) { %>
       <% friendReminders.forEach(function (friendItem) { %>
       <li class="list-group-item">
-        <strong><%= friendItem.title %>: </strong>
-        <%= friendItem.description %>
-        || Completed:
-        <% if (friendItem.completed == true) { %>
-          <span class="badge badge-success">True</span>
-        <% } else if (friendItem.completed == false) { %>
-          <span class="badge badge-danger">False</span>
-        <% } %>
+        <p>
+          <strong><%= friendItem.title %>: </strong>
+          <%= friendItem.description %>
+          || Completed:
+          <% if (friendItem.completed == true) { %>
+            <span class="badge badge-success">True</span>
+          <% } else if (friendItem.completed == false) { %>
+            <span class="badge badge-danger">False</span>
+          <% } %>
+        </p>
+        <p>
+          <% for (tag of friendItem.tags) { %>
+            <span class="tag-view"><%= tag %></span>
+          <% } %>
+        </p>
       </li>
+
       <% }) %>
     <% }) %>
   </ul>

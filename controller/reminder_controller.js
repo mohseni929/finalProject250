@@ -103,6 +103,8 @@ let remindersController = {
       } else {
         req.user[1]['reminders'][updateRemIndex].completed = false
       }
+      const tags = req.body.tags
+      req.user[1]['reminders'][updateRemIndex].tags = tags.split(",")
       res.redirect("/reminder/" + reminderToFind);
     } else {
       const updateSubtaskIndex = req.user[1]["reminders"][updateRemIndex]["subtasks"].findIndex(subtask => subtask.id == subtaskTofind)
