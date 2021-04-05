@@ -31,6 +31,12 @@
               <% } %>
               </ul>
           <% } %>
+                    <h4>Tags</h4>
+          <p>
+            <% for (tag of reminderItem.tags) { %>
+              <span class="tag-view"><%= tag %></span>
+            <% } %>
+          </p>
         <% } %>
 
         <% if (parentItem == null) { %>

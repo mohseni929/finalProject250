@@ -80,3 +80,12 @@ I worked on the following tasks:
 5. <Modified database.js> - Added new friend list to users and new functions to return friend reminders.
 6. <Modified reminder_controller> - When constructing index.ejs, friend reminders are sent as a variable.
 
+
+April 4th
+I worked on the following tasks:
+1. <Added a tasks field to the database in database.js> - This task is resposible for tag functionality.
+2. <Modified create function in reminder_controller.js> - This task is respoisible for tag functionality.
+3. <Modified tag-view class in style.css> - This task is responsible for displaying tags.
+4. <Modified single-reminder.ejs> - This task is responsible for displaying tags.
+
+

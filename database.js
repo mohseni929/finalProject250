@@ -8,12 +8,14 @@ let Database = {
                     description: "Chicken Nuggets",
                     completed: false,
                     subtasks: [{id: 1001,title: "subtask1", description: "abcabc", completed: false,},
-                              {id: 1002,title: "subtask2", description: "abcabc", completed: false,}]
+                              {id: 1002,title: "subtask2", description: "abcabc", completed: false,}],
+                    tags: ["CIT", "Term2"]
                     },
                     {id: 2,
                      title: "abcdefg",
                      description: "abcabc",
                      completed: false,
+                     tags:["CIT", "Term1"]
                     }
                    ],
         friends: ["alex@gmail.com", "jonathan@gmail.com"]

@@ -66,6 +66,7 @@ let remindersController = {
         description: req.body.description,
         completed: false,
         subtasks: [],
+        tags: [],
       };
       req.user[1]['reminders'].push(reminder);
       res.redirect("/reminders");
