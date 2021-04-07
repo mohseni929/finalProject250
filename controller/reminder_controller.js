@@ -98,6 +98,7 @@ let remindersController = {
     if (subtaskTofind == 0) {
       req.user[1]['reminders'][updateRemIndex].title = req.body.title
       req.user[1]['reminders'][updateRemIndex].description = req.body.description
+      req.user[1]['reminders'][updateRemIndex].date = req.body.date
       if (req.body.completed.toLowerCase() === 'true') {
         req.user[1]['reminders'][updateRemIndex].completed = true
       } else {
@@ -110,6 +111,7 @@ let remindersController = {
       const updateSubtaskIndex = req.user[1]["reminders"][updateRemIndex]["subtasks"].findIndex(subtask => subtask.id == subtaskTofind)
       req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].title = req.body.title
       req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].description = req.body.description
+      req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].date = req.body.date
       if (req.body.completed.toLowerCase() === 'true') {
         req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].completed = true
       } else {
@@ -117,6 +119,7 @@ let remindersController = {
       }
       res.redirect("/reminder/" + reminderToFind + "/" + subtaskTofind);
     }
+    
 
   },
 

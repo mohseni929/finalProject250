@@ -7,8 +7,9 @@ let Database = {
                     title: "Cindy",
                     description: "Chicken Nuggets",
                     completed: false,
-                    subtasks: [{id: 1001,title: "subtask1", description: "abcabc", completed: false,},
-                              {id: 1002,title: "subtask2", description: "abcabc", completed: false,}],
+                    subtasks: [{id: 1001,title: "subtask1", description: "abcabc", completed: false, date: "2021-04-07"},
+                              {id: 1002,title: "subtask2", description: "abcabc", completed: false, date: "2021-04-07"}],
+                    date: "2021-04-07",
                     tags: ["CIT", "Term2"]
                     },
                     {id: 2,
@@ -16,6 +17,7 @@ let Database = {
                      description: "abcabc",
                      completed: false,
                      subtasks: [],
+                     date: "2021-04-07",
                      tags:["CIT", "Term1"]
                     }
                    ],

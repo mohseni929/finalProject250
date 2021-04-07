@@ -5,6 +5,7 @@ Mo
 Akino
 Atoosa
 
+
 March 22th (Authentication Complete)
 Markus:
 I worked on the following tasks:
@@ -80,8 +81,8 @@ I worked on the following tasks:
 5. <Modified database.js> - Added new friend list to users and new functions to return friend reminders.
 6. <Modified reminder_controller> - When constructing index.ejs, friend reminders are sent as a variable.
 
-
 April 4th
+Akino
 I worked on the following tasks:
 1. <Added a tasks field to the database in database.js> - This task is resposible for tag functionality.
 2. <Modified create function in reminder_controller.js> - This task is respoisible for tag functionality.
@@ -91,3 +92,13 @@ I worked on the following tasks:
 6. <Modified edit.ejs> - This task is responsible for editing tags.
 7. <Modified index.ejs> - This task is responsible for displaying tags.
 
+April 7th 
+Atoosa and Akino 
+I worked on the following tasks: 
+1. <added a date field to database>This task is responsible for date functionality.
+2. <modified index.ejs >This task is responsible for date functionality.
+3. <modified single-reminder.ejs>This task is responsible for date functionality.
+4. <modified edit.ejs >This task is responsible for date functionality.
+5. <modified reminder_controller.js>This task is responsible for date functionality.
+I also needed to research on Google the following things:
+1. https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date

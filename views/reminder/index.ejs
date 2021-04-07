@@ -7,6 +7,8 @@
         <p>
         <strong><%= reminderItem.title %>: </strong>
         <%= reminderItem.description %>
+        || <%= reminderItem.date %>
+        
         || Completed:
         <% if (reminderItem.completed == true) { %>
           <span class="badge badge-success">True</span>
