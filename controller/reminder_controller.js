@@ -1,3 +1,4 @@
+const fetch = require("node-fetch");
 let database = require("../database").Database;
 let userModel = require("../database").userModel;
 
@@ -73,29 +74,31 @@ let remindersController = {
     }
   },
 
-  edit: (req, res) => {
+  edit: async (req, res) => {
     let reminderToFind = req.params.id;
     let subtaskTofind = req.params.subid;
-
-    let searchResult = req.user[1]['reminders'].find(function (reminder) {
+    let reminder = req.user[1]['reminders'].find(function (reminder) {
       return reminder.id == reminderToFind;
     });
 
-    if (subtaskTofind == 0) {
-      res.render("reminder/edit", { reminderItem: searchResult, parentItem: null });
-
-    } else {
-      subtask = searchResult.subtasks.find((task) => task.id == subtaskTofind)
-      res.render("reminder/edit", { reminderItem: subtask, parentItem: searchResult });
+    let parent = null;
+    if (subtaskTofind != 0) {
+      parent = reminder
+      reminder = parent.subtasks.find((task) => task.id == subtaskTofind)
     }
-  },
+    let coverPhoto = null;
 
+    const thumbList = await helper.createThumbList(coverPhoto)
+    await res.render("reminder/edit", { reminderItem: reminder, parentItem: parent, coverPhoto: reminder.cover, thumbs: thumbList});
+  },
 
   update: (req, res) => {
     let reminderToFind = req.params.id;
     let subtaskTofind = req.params.subid;
+
     const updateRemIndex = req.user[1]['reminders'].findIndex(reminder => reminder.id == reminderToFind)
     if (subtaskTofind == 0) {
+
       req.user[1]['reminders'][updateRemIndex].title = req.body.title
       req.user[1]['reminders'][updateRemIndex].description = req.body.description
       req.user[1]['reminders'][updateRemIndex].date = req.body.date
@@ -106,6 +109,7 @@ let remindersController = {
       }
       const tags = req.body.tags
       req.user[1]['reminders'][updateRemIndex].tags = tags.split(",")
+      req.user[1]['reminders'][updateRemIndex].cover = req.body.cover 
       res.redirect("/reminder/" + reminderToFind);
     } else {
       const updateSubtaskIndex = req.user[1]["reminders"][updateRemIndex]["subtasks"].findIndex(subtask => subtask.id == subtaskTofind)
@@ -117,10 +121,9 @@ let remindersController = {
       } else {
         req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].completed = false
       }
+      req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].cover = req.body.cover
       res.redirect("/reminder/" + reminderToFind + "/" + subtaskTofind);
     }
-    
-
   },
 
   delete: (req, res) => {
@@ -143,6 +146,33 @@ let remindersController = {
     }
     console.log(Object.values(database))
   },
+};
+
+let helper = {
+  getRandomPhotos: async () => {
+    const clientId = "MFIXUnNBZ5rBEdVfMPP0NQUbiT3FHJof03My-aGap4w"
+    const num = "19"
+    const photos = await fetch (
+      `https://api.unsplash.com/photos/random?client_id=${clientId}&count=${num}&query=pattern`
+    );
+    const parsePohtos = await photos.json();
+    let randomPhotos = [];
+    for (aPhoto of parsePohtos) {
+      randomPhotos.push(aPhoto["urls"]["regular"])
+    }
+    return randomPhotos
+  },
+  createThumbList: async (coverPhotoUrl) => {
+    const thumbList = [];
+    if (coverPhotoUrl) {
+      thumbList.push(coverPhotoUrl);
+    }
+    const randomPhotos = await helper.getRandomPhotos();
+    for (photo of randomPhotos) {
+      thumbList.push(photo);
+    }
+    return thumbList;
+  }
 };
 
 module.exports = remindersController;

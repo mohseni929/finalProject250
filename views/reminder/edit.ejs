@@ -1,3 +1,20 @@
+
+<div>
+  <div>
+    <% if (coverPhoto) { %>
+      <img class="img-cover" src=<%= coverPhoto %>>
+    <% } else { %>
+      <img class="img-cover img-invisible" src="">
+    <% } %>
+  </div>
+  <div id="thumb-bar">
+    <img id="img-remove" class="img-thumb" src="">
+    <% for (thumb of thumbs) { %>
+      <img class="img-thumb" src=<%= thumb %>>
+    <% } %>
+  </div>
+</div>
+
 <div class="container">
   <h1 class="page-header">Edit</h1>
   <% if (parentItem == null) { %>
@@ -6,6 +23,9 @@
     <% action = "/reminder/update/" + parentItem.id + "/" + reminderItem.id %>
   <% } %>
   <form action=<%= action %> method="POST">
+    <div class="form-group">
+      <input type="text" name="cover" class="form-control" id="cover" value="<%= reminderItem.cover %>" hidden>
+    </div>
     <div class="form-group">
       <label for="title">Title</label>
       <input type="text" name="title" class="form-control" id="titleInput" value="<%= reminderItem.title %>">
@@ -69,3 +89,26 @@
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
 </div>
+
+<script>
+  const divThumb = document.querySelector('#thumb-bar')
+  divThumb.addEventListener("click", function (e) {
+    e.stopPropagation()
+
+    const imgCover = document.querySelector(".img-cover")
+    const inputCover = document.querySelector("#cover")
+
+    if (e.target === document.querySelector("#img-remove")) {
+      imgCover.classList.add("img-invisible")
+      imgCover.src = ""
+      inputCover.value = ""
+    } else {
+      if (imgCover.classList.length != 1) {
+        imgCover.classList.remove("img-invisible")
+      }
+      imgCover.src = e.target.src
+      inputCover.value = e.target.src
+    }
+  })
+
+</script>

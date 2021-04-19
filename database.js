@@ -10,7 +10,8 @@ let Database = {
                     subtasks: [{id: 1001,title: "subtask1", description: "abcabc", completed: false, date: "2021-04-07"},
                               {id: 1002,title: "subtask2", description: "abcabc", completed: false, date: "2021-04-07"}],
                     date: "2021-04-07",
-                    tags: ["CIT", "Term2"]
+                    tags: ["CIT", "Term2"],
+                    cover: "https://images.unsplash.com/photo-1615734028948-e377fd7688c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMjM4NDR8MHwxfHJhbmRvbXx8fHx8fHx8fDE2MTg4MDEwNjg&ixlib=rb-1.2.1&q=80&w=1080"
                     },
                     {id: 2,
                      title: "abcdefg",
@@ -18,7 +19,7 @@ let Database = {
                      completed: false,
                      subtasks: [],
                      date: "2021-04-07",
-                     tags:["CIT", "Term1"]
+                     tags:["CIT", "Term1"],
                     }
                    ],
         friends: ["alex@gmail.com", "jonathan@gmail.com"]
