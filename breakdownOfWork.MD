@@ -106,11 +106,15 @@ I also needed to research on Google the following things:
 April 18th
 Akino
 I worked on the following tasks:
-1. <Added a cover field to database> - This task is respoinsible for the cover feture using unsplash
-2. <Modified database.ejs> - This task is respoinsible for the cover feature using unsplash
-3. <Modified reminder_controller.js> This task is respoinsible for the cover feature using unsplash
-4. <Modified edit.ejs> - This task is respoinsible for editing the cover using unsplash
-5. <Modified style.css> - This task is respoinsible for editing the cover using unsplash
+1. <Modified database.ejs> - This task is respoinsible for the cover feature using unsplash
+2. <Modified reminder_controller.js> This task is respoinsible for the cover feature using unsplash
+3. <Modified edit.ejs> - This task is respoinsible for editing the cover using unsplash
 I also needed to research on Google the following things:
 1. https://unsplash.com/documentation
 2. https://medium.com/@matt.readout/using-the-unsplash-api-to-search-for-photos-in-a-react-app-93f6262e692c
+
+April 19th 
+Atoosa 
+I worked on the following tasks:
+1. <Modified single-reminder.ejs> This task is showing the cover page in the reminder page 
+2. <Modified style.css> - This task is respoinsible for editing the cover using unsplash

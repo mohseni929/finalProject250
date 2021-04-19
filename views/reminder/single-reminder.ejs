@@ -1,4 +1,7 @@
-<div class="container">
+<% if (reminderItem.cover) { %>
+  <img class="img-cover" src=<%= reminderItem.cover %>>
+<% } %>
+  <div class="container">
   <h1 class="page-header">Reminders</h1>
 
     <ul class="list-group">
