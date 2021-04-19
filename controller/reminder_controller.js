@@ -1,6 +1,7 @@
 const fetch = require("node-fetch");
 let database = require("../database").Database;
 let userModel = require("../database").userModel;
+require('dotenv').config()
 
 let remindersController = {
   list: (req, res) => {
@@ -150,10 +151,9 @@ let remindersController = {
 
 let helper = {
   getRandomPhotos: async () => {
-    const clientId = "MFIXUnNBZ5rBEdVfMPP0NQUbiT3FHJof03My-aGap4w"
     const num = "19"
     const photos = await fetch (
-      `https://api.unsplash.com/photos/random?client_id=${clientId}&count=${num}&query=pattern`
+      `https://api.unsplash.com/photos/random?client_id=${process.env.UNSPLASH_CLIENT_ID}&count=${num}&query=pattern`
     );
     const parsePohtos = await photos.json();
     let randomPhotos = [];
