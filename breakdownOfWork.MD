@@ -118,3 +118,11 @@ Atoosa
 I worked on the following tasks:
 1. <Modified single-reminder.ejs> This task is showing the cover page in the reminder page 
 2. <Modified style.css> - This task is respoinsible for editing the cover using unsplash
+
+April 19th
+Mo
+I worked on the followinG:
+1. added weather api by in <reminder_controller.js>. This shows the up to date weather of Vancouver.
+2. modified <index.ejs> in the reminder folder to design the weather api output. 
+research links:
+https://openweathermap.org/

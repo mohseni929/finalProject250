@@ -59,4 +59,21 @@
     <% }) %>
   </ul>
 
+  <br>
+  <br>
+  <br>
+  <br>
+
+
+  <table style="width:100%; background:#E3FDFA; border: 1px solid #C5B798; margin-top: 15px; margin-bottom: 25px">
+    <tr>
+       <th style = "font-size: 20px";>City </th><th style = "font-size: 20px">Weather</th><th style = "font-size: 20px">Description</th><th style = "font-size: 20px">Temperture</th>
+    </tr>
+     <tr>
+       <td><%=weatherJSON.name%></td>
+       <td><%=weatherJSON.weather[0].main  %></td>
+       <td><%=weatherJSON.weather[0].description%></td>
+       <td><%= Math.round(weatherJSON.main.temp-273.15)%> °C </td> 
+     </tr>    
+ </table>
 </div>

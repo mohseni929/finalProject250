@@ -4,10 +4,12 @@ let userModel = require("../database").userModel;
 require('dotenv').config()
 
 let remindersController = {
-  list: (req, res) => {
+  list: async(req, res) => {
+    const fetchResponse = await fetch("https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=2c26accc258a2e85298e59260be86adb");
+    const data = await fetchResponse.json();
+    console.log(data)
     frReminders = userModel.findFriend(req.user[1]['friends'])
-    console.log(frReminders)
-    res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders });
+    res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders, weatherJSON: data });
   },
 
   new: (req, res) => {
@@ -17,7 +19,7 @@ let remindersController = {
     let parentId = req.params.id
     res.render("reminder/create", { parentId: parentId});
   },
-  listOne: (req, res) => {
+  listOne: async(req, res) => {
     let reminderToFind = req.params.id;
     
     let searchResult = req.user[1]['reminders'].find(function (reminder) {
@@ -26,12 +28,14 @@ let remindersController = {
     if (searchResult != undefined) {
       res.render("reminder/single-reminder", { reminderItem: searchResult, parentItem: null});
     } else {
+      const fetchResponse = await fetch("https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=2c26accc258a2e85298e59260be86adb");
+      const data = await fetchResponse.json();
       frReminders = userModel.findFriend(req.user[1]['friends'])
-      res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders });
+      res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders, weatherJSON: data });
     }
   },
 
-  viewSub: (req, res) => {
+  viewSub: async(req, res) => {
     let reminderToFind = req.params.id;
     let subidToFind = req.params.subid;
     let reminder = req.user[1]['reminders'].find(function (reminder) {
@@ -44,7 +48,9 @@ let remindersController = {
       }
     } else {
       frReminders = userModel.findFriend(req.user[1]['friends'])
-      res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders });
+      const fetchResponse = await fetch("https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=2c26accc258a2e85298e59260be86adb");
+      const data = await fetchResponse.json();
+      res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders, weatherJSON: data });
     }
   },
 
