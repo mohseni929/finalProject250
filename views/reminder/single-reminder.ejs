@@ -20,24 +20,32 @@
         
         <!-- if the remider is not a subtask, show the subtasks -->
         <% if (parentItem == null) { %>
-          <h4>Subtasks</h4>
-          <% if (reminderItem.subtasks) { %>
-            <ul class="list-group">
-              <% for (task of reminderItem.subtasks) { %>
-                  <li class="list-group-item">
-                    <a href=<%= "/reminder/" + reminderItem.id + "/" + task.id %>><%= task.title %></a> | <%= task.description %>  
-                    <% if (task.completed) { %>
-                      (Completed)
-                    <% } %>
-                  </li>
-              <% } %>
-              </ul>
+          <% if (reminderItem.subtasks.join("")) { %>
+            <h4>Subtasks</h4>
+            <% if (reminderItem.subtasks) { %>
+              <ul class="list-group">
+                <% for (task of reminderItem.subtasks) { %>
+                    <li class="list-group-item">
+                      <a href=<%= "/reminder/" + reminderItem.id + "/" + task.id %>><%= task.title %></a> | <%= task.description %>
+                      <% if (task.date) { %>
+                        | <%= task.date %>
+                      <% } %>
+                      <% if (task.completed) { %>
+                        (Completed)
+                      <% } %>
+                    </li>
+                <% } %>
+                </ul>
+            <% } %>
           <% } %>
-
-          <h4>Tags</h4>
+          <% if (reminderItem.tags.join("").trim()) { %>
+            <h4>Tags</h4>
+          <% } %>
           <p>
             <% for (tag of reminderItem.tags) { %>
+              <% if (tag.trim()) { %>
                 <span class="tag-view"><%= tag %></span>
+              <% } %>
             <% } %>
           </p>
 
