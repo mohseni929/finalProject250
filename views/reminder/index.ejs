@@ -16,11 +16,13 @@
         <% } else if (reminderItem.completed == false) { %>
           <span class="badge badge-danger">False</span>
         <% } %>
-        <a class="pull-right" href=<%= "/reminder/" + reminderItem.id %>>View</a>
+        <a class="pull-right" href=<%= "/reminder/" + reminderItem.reminder_id %>>View</a>
         <p>
-          <% for (tag of reminderItem.tags) { %>
-            <% if (tag.trim()) { %>
-              <span class="tag-view"><%= tag %></span>
+          <% if (reminderItem.tags) { %>
+            <% for (tag of reminderItem.tags.split(',')) { %>
+              <% if (tag.trim()) { %>
+                <span class="tag-view"><%= tag %></span>
+              <% } %>
             <% } %>
           <% } %>
         </p>
@@ -38,32 +40,31 @@
   <h2>Friend Reminders</h2>
 
   <ul class="list-group">
-    <% groupReminders.forEach(function (friendReminders) { %>
-      <% friendReminders.forEach(function (friendItem) { %>
+    <% groupReminders.forEach(function (reminderItem) { %>
       <li class="list-group-item">
         <p>
-          <strong><%= friendItem.title %>: </strong>
-          <%= friendItem.description %>
-          <% if (friendItem.date) { %>
-            || <%= friendItem.date %>
-            <% } %>
-          || Completed:
-          <% if (friendItem.completed == true) { %>
-            <span class="badge badge-success">True</span>
-          <% } else if (friendItem.completed == false) { %>
-            <span class="badge badge-danger">False</span>
-          <% } %>
-        </p>
+        <strong><%= reminderItem.title %>: </strong>
+        <%= reminderItem.description %>
+        <% if (reminderItem.date) { %>
+        || <%= reminderItem.date %>
+        <% } %>
+        || Completed:
+        <% if (reminderItem.completed == true) { %>
+          <span class="badge badge-success">True</span>
+        <% } else if (reminderItem.completed == false) { %>
+          <span class="badge badge-danger">False</span>
+        <% } %>
+        <a class="pull-right" href=<%= "/reminder/" + reminderItem.reminder_id %>>View</a>
         <p>
-          <% for (tag of friendItem.tags) { %>
-            <% if (tag.trim()) { %>
-              <span class="tag-view"><%= tag %></span>
+          <% if (reminderItem.tags) { %>
+            <% for (tag of reminderItem.tags.split(',')) { %>
+              <% if (tag.trim()) { %>
+                <span class="tag-view"><%= tag %></span>
+              <% } %>
             <% } %>
           <% } %>
         </p>
       </li>
-
-      <% }) %>
     <% }) %>
   </ul>
 

@@ -17,9 +17,9 @@
 <div class="container">
   <h1 class="page-header">Edit</h1>
   <% if (parentItem == null) { %>
-    <% action = "/reminder/update/" + reminderItem.id + "/0" %>
+    <% action = "/reminder/update/" + reminderItem.reminder_id + "/0" %>
   <% } else { %>
-    <% action = "/reminder/update/" + parentItem.id + "/" + reminderItem.id %>
+    <% action = "/reminder/update/" + parentItem.reminder_id + "/" + reminderItem.reminder_id %>
   <% } %>
   <form action=<%= action %> method="POST">
     <div class="form-group">
@@ -35,22 +35,22 @@
     </div>
     <div class="form-group">
       <label for="date">date</label>
-      <input type="date" name="date" class="form-control" id="dateinput" value="<%= reminderItem.date %>">
+      <input type="date" name="date" class="form-control" id="dateinput" value=<%= reminderItem.due_date %>>
     </div>
     <% if (parentItem == null) { %>
     <div class="form-group">
       <label for="subtasks">Subtasks</label>
       <ul class="list-group">
-        <% if (reminderItem.subtasks) { %>
-          <% for (task of reminderItem.subtasks) { %>
+        <% if (subtasks) { %>
+          <% for (task of subtasks) { %>
             <li class="list-group-item">
-              <a href=<%= "/reminder/edit/" + reminderItem.id + "/" + task.id %>>
+              <a href=<%= "/reminder/edit/" + reminderItem.reminder_id + "/" + task.reminder_id %>>
                 <%= task.title %> | <%= task.description %>
               </a>
             </li>
           <% } %>
           <li class="list-group-item">
-            <a href=<%= "/reminder/newSub/" + reminderItem.id %>>
+            <a href=<%= "/reminder/newSub/" + reminderItem.reminder_id %>>
               + Add a subtask</a>
           </li>
         <% } %>

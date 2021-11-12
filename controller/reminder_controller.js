@@ -1,15 +1,16 @@
 const fetch = require("node-fetch");
-let database = require("../database").Database;
-let userModel = require("../database").userModel;
-require('dotenv').config()
+let userModel = require('../models/userModel').userModel
+
 
 let remindersController = {
-  list: async(req, res) => {
+  list: async (req, res) => {
     const fetchResponse = await fetch("https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=2c26accc258a2e85298e59260be86adb");
     const data = await fetchResponse.json();
-    console.log(data)
-    frReminders = userModel.findFriend(req.user[1]['friends'])
-    res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders, weatherJSON: data });
+    // const myReminders = await userModel.myReminders(req.user[0].user_id)
+    // const frReminders = await userModel.friendReminders(req.user[0].user_id)
+    const myReminders = await userModel.myReminders(req._passport.session.user)
+    const frReminders = await userModel.friendReminders(req._passport.session.user)
+    res.render("reminder/index", { reminders: myReminders, groupReminders: frReminders, weatherJSON: data });
   },
 
   new: (req, res) => {
@@ -20,138 +21,116 @@ let remindersController = {
     res.render("reminder/create", { parentId: parentId});
   },
   listOne: async(req, res) => {
-    let reminderToFind = req.params.id;
-    
-    let searchResult = req.user[1]['reminders'].find(function (reminder) {
-      return reminder.id == reminderToFind;
-    });
-    if (searchResult != undefined) {
-      res.render("reminder/single-reminder", { reminderItem: searchResult, parentItem: null});
-    } else {
-      const fetchResponse = await fetch("https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=2c26accc258a2e85298e59260be86adb");
-      const data = await fetchResponse.json();
-      frReminders = userModel.findFriend(req.user[1]['friends'])
-      res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders, weatherJSON: data });
-    }
+    const oneReminder = await userModel.getOneReminder(req.params.id)
+    const subtasks = await userModel.getSubtasks(req.params.id)
+    res.render("reminder/single-reminder", { oneReminder: oneReminder[0], subtasks: subtasks, parentItem: null});
   },
 
   viewSub: async(req, res) => {
-    let reminderToFind = req.params.id;
-    let subidToFind = req.params.subid;
-    let reminder = req.user[1]['reminders'].find(function (reminder) {
-      return reminder.id == reminderToFind;
-    });
-    if (reminder != undefined) {
-      subtask = reminder.subtasks.find((subtask) => subtask.id == subidToFind)
-      if (subtask != undefined) {
-        res.render("reminder/single-reminder", { reminderItem: subtask, parentItem: reminder});
-      }
-    } else {
-      frReminders = userModel.findFriend(req.user[1]['friends'])
-      const fetchResponse = await fetch("https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=2c26accc258a2e85298e59260be86adb");
-      const data = await fetchResponse.json();
-      res.render("reminder/index", { reminders: req.user[1]['reminders'], groupReminders: frReminders, weatherJSON: data });
-    }
+    const parentReminder = await userModel.getOneReminder(req.params.id)
+    const subReminder = await userModel.getOneReminder(req.params.subid)
+    res.render("reminder/single-reminder", { oneReminder: subReminder[0], subtasks: null, parentItem: parentReminder[0]});
   },
 
-  create: (req, res) => {
-    const parentId = req.body.parentId
-    const idx = req.user[1]['reminders'].findIndex(reminder => reminder.id == parentId)
-    if (parentId) {
-      let subReminder = {
-        id: parseInt(parentId + ('000' + (req.user[1]['reminders'][idx]['subtasks'].length + 1)).slice(-3)),
-        title: req.body.title,
-        description: req.body.description,
-        completed: false,
-      }
-      req.user[1]['reminders'][idx]['subtasks'].push(subReminder);
-      console.log(req.user[1]['reminders'][idx]['subtasks'])
-      res.redirect("/reminder/" + parentId);
+  create: async (req, res) => {
+    if (req.body.parentId) {
+      await userModel.createReminder(req._passport.session.user, req.body.title, req.body.description, true)
+      const newReminderId = await userModel.getNewReminderId(req._passport.session.user);
+      await userModel.addSubtask(req.body.parentId, newReminderId[0].reminder_id)
+      res.redirect("/reminder/" + req.body.parentId)
     } else {
-      let reminder = {
-        id: req.user[1]['reminders'].length + 1,
-        title: req.body.title,
-        description: req.body.description,
-        completed: false,
-        subtasks: [],
-        tags: [],
-      };
-      req.user[1]['reminders'].push(reminder);
+      await userModel.createReminder(req._passport.session.user, req.body.title, req.body.description, false)
       res.redirect("/reminders");
     }
   },
 
   edit: async (req, res) => {
-    let reminderToFind = req.params.id;
-    let subtaskTofind = req.params.subid;
-    let reminder = req.user[1]['reminders'].find(function (reminder) {
-      return reminder.id == reminderToFind;
-    });
-
+    const subtaskTofind = req.params.subid;
+    const result = await userModel.getOneReminder(req.params.id);
+    let oneReminder = result[0]
+    let subtasks = null;
     let parent = null;
     if (subtaskTofind != 0) {
-      parent = reminder
-      reminder = parent.subtasks.find((task) => task.id == subtaskTofind)
+      parent = oneReminder;
+      subtasks = null;
+      const result2 = await userModel.getOneReminder(subtaskTofind);
+      oneReminder = result2[0];
+    } else {
+      subtasks = await userModel.getSubtasks(req.params.id);
     }
     let coverPhoto = null;
-
     const thumbList = await helper.createThumbList(coverPhoto)
-    await res.render("reminder/edit", { reminderItem: reminder, parentItem: parent, coverPhoto: reminder.cover, thumbs: thumbList});
+    res.render("reminder/edit", { reminderItem: oneReminder, subtasks: subtasks, parentItem: parent, coverPhoto: oneReminder.cover, thumbs: thumbList});
   },
 
-  update: (req, res) => {
+  update: async (req, res) => {
     let reminderToFind = req.params.id;
-    let subtaskTofind = req.params.subid;
+    if (req.params.subid != 0) {reminderToFind = req.params.subid};
+    
+    let completed = 'false'
+    if (req.body.completed.toLowerCase() === 'true') {
+          completed = 'true'
+    }
 
-    const updateRemIndex = req.user[1]['reminders'].findIndex(reminder => reminder.id == reminderToFind)
-    if (subtaskTofind == 0) {
-
-      req.user[1]['reminders'][updateRemIndex].title = req.body.title
-      req.user[1]['reminders'][updateRemIndex].description = req.body.description
-      req.user[1]['reminders'][updateRemIndex].date = req.body.date
-      if (req.body.completed.toLowerCase() === 'true') {
-        req.user[1]['reminders'][updateRemIndex].completed = true
-      } else {
-        req.user[1]['reminders'][updateRemIndex].completed = false
+    let date = 'null';
+    if (req.body.date) {
+      date = "'" + req.body.date.toString() + "'"
+    }
+    await userModel.updateReminder(reminderToFind,
+                                  req.body.title,
+                                  req.body.description,
+                                  completed,
+                                  date,
+                                  req.body.cover);
+    
+    if (req.params.subid == 0) {
+      await userModel.deleteTags(reminderToFind); 
+      for (tag of req.body.tags.split(",")) {
+        await userModel.insertTag(reminderToFind, tag);
       }
-      const tags = req.body.tags
-      req.user[1]['reminders'][updateRemIndex].tags = tags.split(",")
-      req.user[1]['reminders'][updateRemIndex].cover = req.body.cover 
-      res.redirect("/reminder/" + reminderToFind);
+      res.redirect("/reminder/" + req.params.id);
     } else {
-      const updateSubtaskIndex = req.user[1]["reminders"][updateRemIndex]["subtasks"].findIndex(subtask => subtask.id == subtaskTofind)
-      req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].title = req.body.title
-      req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].description = req.body.description
-      req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].date = req.body.date
-      if (req.body.completed.toLowerCase() === 'true') {
-        req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].completed = true
-      } else {
-        req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].completed = false
-      }
-      req.user[1]['reminders'][updateRemIndex]["subtasks"][updateSubtaskIndex].cover = req.body.cover
-      res.redirect("/reminder/" + reminderToFind + "/" + subtaskTofind);
+      res.redirect("/reminder/" + req.params.id + "/" + req.params.subid);
     }
   },
 
-  delete: (req, res) => {
-    const deleteRemIndex = req.user[1]['reminders'].findIndex(reminder => reminder.id == req.params.id)
-    req.user[1]['reminders'].splice(deleteRemIndex, 1);
+  delete: async (req, res) => {
+    await userModel.deleteTags(req.params.id);
+    await userModel.deleteSubtasks(req.params.id);
+    await userModel.deleteReminder(req.params.id);
     res.redirect("/reminders");
   },
 
-  friendList: (req, res) => {
-    res.render("friend/index", { friends: req.user[1]['friends'] });
+  friendList: async (req, res) => {
+    const friendsWhoCanSeeMyReminders = await userModel.getFriendswhoCanSeeMyReminders(req._passport.session.user);
+    const friendsWhoShowRemindersToMe = await userModel.getFriendsWhoShowRemindersToMe(req._passport.session.user);
+    res.render("friend/index", { friendsWhoCanSeeMyReminders: friendsWhoCanSeeMyReminders, friendsWhoShowRemindersToMe:friendsWhoShowRemindersToMe, msg: "" });
   },
 
-  addFr: (req, res) => {
-    console.log(req.body["email"])
-    for (user of Object.values(database)) {
-      if (user["email"] == req.body["email"] && req.user[1]["friends"].includes(req.body["email"]) == false) {
-        req.user[1]['friends'].push(req.body["email"])
-        res.render("friend/index", { friends: req.user[1]['friends'] });
+  addFr: async (req, res) => {
+    let friendsWhoCanSeeMyReminders = await userModel.getFriendswhoCanSeeMyReminders(req._passport.session.user);
+    const friendsWhoShowRemindersToMe = await userModel.getFriendsWhoShowRemindersToMe(req._passport.session.user);
+    const friend = await userModel.findFriend(req.body.email)
+    let msg = null
+    if (friend.length == 0) {
+      msg = `${req.body.email} does not exist.`
+    } else if (friend[0].user_id == req._passport.session.user)  {
+      msg = `${req.body.email} is your email address.`
+    } else {
+      for (fr of friendsWhoCanSeeMyReminders) {
+        if (fr.friend_id == friend[0].user_id) {
+          msg = `${req.body.email} is already your friend.`
+          break
+        } 
+      } 
+      if (! msg) {
+        await userModel.addFriend(req._passport.session.user, friend[0].user_id)
+        friendsWhoCanSeeMyReminders = await userModel.getFriendswhoCanSeeMyReminders(req._passport.session.user);
+        msg = `${req.body.email} is added to your friend list.`
       }
+      
     }
-    console.log(Object.values(database))
+    res.render("friend/index", { friendsWhoCanSeeMyReminders: friendsWhoCanSeeMyReminders, friendsWhoShowRemindersToMe:friendsWhoShowRemindersToMe, msg: msg });
   },
 };
 
@@ -159,7 +138,7 @@ let helper = {
   getRandomPhotos: async () => {
     const num = "19"
     const photos = await fetch (
-      `https://api.unsplash.com/photos/random?client_id=${process.env.UNSPLASH_CLIENT_ID}&count=${num}&query=pattern`
+      `https://api.unsplash.com/photos/random?client_id=MFIXUnNBZ5rBEdVfMPP0NQUbiT3FHJof03My-aGap4w&count=${num}&query=pattern`
     );
     const parsePohtos = await photos.json();
     let randomPhotos = [];

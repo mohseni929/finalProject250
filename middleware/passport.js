@@ -1,5 +1,6 @@
 const passport = require("passport");
-let userModel = require("../database").userModel;
+// let userModel = require("../database").userModel;
+let userModel = require("../models/userModel").userModel;
 const LocalStrategy = require("passport-local").Strategy;
 
 const localLogin = new LocalStrategy(
@@ -7,9 +8,10 @@ const localLogin = new LocalStrategy(
       usernameField: "email",
       passwordField: "password",
     },
-    (email, password, done) => {
-      user = userModel.findEmail(email)
-      if (user[1].password === password) {
+    async (email, password, done) => {
+      result = await userModel.findEmail(email)
+      user = JSON.parse(JSON.stringify(result))
+      if (user[0].user_password === password) {
         return user
         ? done(null, user)
         : done(null, false, {
@@ -20,11 +22,11 @@ const localLogin = new LocalStrategy(
 );
 
 passport.serializeUser(function (user, done) {
-    done(null, user[1]['id']);
+    done(null, user[0]['user_id']);
 });
   
 passport.deserializeUser(function (id, done) {
-    let user = userModel.findId(id);
+    let user = userModel.findUserId(id);
     if (user) {
         done(null, user);
     } else {

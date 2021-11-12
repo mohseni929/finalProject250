@@ -4,16 +4,23 @@
   <form action="friends" method="POST">
     <input type="text" placeholder="Enter Friend Email" name="email">
     <button type="submit">Send</button>
+    <p><%= msg %></p>
   </form>
   <br>
   <br>
   <h3>Friend List</h3>
+  <h4>Friends Who Can See My Schedule</h4>
   <ul class="list-group">
-    <% friends.forEach(function (friendItem) { %>
+    <% friendsWhoCanSeeMyReminders.forEach(function (friend) { %>
       <li class="list-group-item">
-        <strong><%= friendItem %> </strong>
+        <strong><%= friend.first_name %> <%= friend.last_name %></strong> || <%= friend.email %>
       </li>
     <% }) %>
   </ul>
-
+  <h4>Friends Who Show Their Reminders to Me</h4>
+  <% friendsWhoShowRemindersToMe.forEach(function (friend) { %>
+    <li class="list-group-item">
+      <strong><%= friend.first_name %> <%= friend.last_name %></strong> || <%= friend.email %>
+    </li>
+  <% }) %>
 </div>

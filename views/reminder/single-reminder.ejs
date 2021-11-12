@@ -1,32 +1,32 @@
-<% if (reminderItem.cover) { %>
-  <img class="img-cover" src=<%= reminderItem.cover %>>
+<% if (oneReminder.cover) { %>
+  <img class="img-cover" src=<%= oneReminder.cover %>>
 <% } %>
   <div class="container">
     <ul class="list-group">
       <li class="list-group-item">
         <% if (parentItem !== null) { %>
-          <h3><a href=<%= "/reminder/" + parentItem.id %>><%= parentItem.title %></a> > </h3>
+          <h3><a href=<%= "/reminder/" + parentItem.reminder_id %>><%= parentItem.title %></a> > </h3>
         <% } %>
-        <h3><strong><%= reminderItem.title %>: </strong></h3>
-        <h4><%= reminderItem.description %></h4>
-        <h4>Date: <%= reminderItem.date %></h4>
+        <h3><strong><%= oneReminder.title %>: </strong></h3>
+        <h4><%= oneReminder.description %></h4>
+        <h4>Date: <%= oneReminder.due_date %></h4>
         <h4>Completed:
-          <% if (reminderItem.completed == true) { %>
+          <% if (oneReminder.completed == true) { %>
             <span class="label label-success">True</span>
-          <% } else if (reminderItem.completed == false) { %>
+          <% } else if (oneReminder.completed == false) { %>
             <span class="label label-danger">False</span>
           <% } %>
         </h4>
         
         <!-- if the remider is not a subtask, show the subtasks -->
         <% if (parentItem == null) { %>
-          <% if (reminderItem.subtasks.join("")) { %>
+          <% if (subtasks.join("")) { %>
             <h4>Subtasks</h4>
-            <% if (reminderItem.subtasks) { %>
+            <% if (subtasks) { %>
               <ul class="list-group">
-                <% for (task of reminderItem.subtasks) { %>
+                <% for (task of subtasks) { %>
                     <li class="list-group-item">
-                      <a href=<%= "/reminder/" + reminderItem.id + "/" + task.id %>><%= task.title %></a> | <%= task.description %>
+                      <a href=<%= "/reminder/" + oneReminder.reminder_id + "/" + task.reminder_id %>><%= task.title %></a> | <%= task.description %>
                       <% if (task.date) { %>
                         | <%= task.date %>
                       <% } %>
@@ -38,27 +38,29 @@
                 </ul>
             <% } %>
           <% } %>
-          <% if (reminderItem.tags.join("").trim()) { %>
+          
+          <% if (oneReminder.tags) { %>
             <h4>Tags</h4>
-          <% } %>
-          <p>
-            <% for (tag of reminderItem.tags) { %>
+            <p>
+            <% for (tag of oneReminder.tags.split(',')) { %>
               <% if (tag.trim()) { %>
                 <span class="tag-view"><%= tag %></span>
               <% } %>
             <% } %>
-          </p>
+            </p>
+          <% } %>
+          
 
         <% } %>
 
         <% if (parentItem == null) { %>
-          <a class="btn btn-warning" href=<%= "/reminder/edit/" + reminderItem.id  + "/0" %>>Edit</a>
+          <a class="btn btn-warning" href=<%= "/reminder/edit/" + oneReminder.reminder_id  + "/0" %>>Edit</a>
         <% } else { %>
-          <a class="btn btn-warning" href=<%= "/reminder/edit/" + parentItem.id + "/" + reminderItem.id %>>Edit</a>
-          <% param = "?id=" + parentItem.id + "&subid=" + reminderItem.id %>
+          <a class="btn btn-warning" href=<%= "/reminder/edit/" + parentItem.reminder_id + "/" + oneReminder.reminder_id %>>Edit</a>
+          <% param = "?id=" + parentItem.reminder_id + "&subid=" + oneReminder.reminder_id %>
         <% } %>
 
-        <form class="deleteForm "method="POST" action=<%= "/reminder/delete/" + reminderItem.id %>>
+        <form class="deleteForm "method="POST" action=<%= "/reminder/delete/" + oneReminder.reminder_id %>>
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
 

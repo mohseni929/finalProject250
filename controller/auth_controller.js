@@ -1,4 +1,4 @@
-let database = require("../database").Database;
+let userModel = require('../models/userModel').userModel
 
 let authController = {
   login: (req, res) => {
@@ -6,35 +6,19 @@ let authController = {
   },
 
   register: (req, res) => {
-    res.render("auth/register");
+    res.render("auth/register", {msg: ""});
   },
 
-  registerSubmit: (req, res) => {
-    let user = req.body.email;
-    let password = req.body.password;
-    let maxId = 0;
-    let flag = false;
-    for (let name in database){
-      if (database[name].email === user){
-       flag = true;
-      } 
-      if (database[name].id > maxId){
-        maxId = database[name].id;
-      }
-    }
-    if(flag){
+  registerSubmit: async (req, res) => {
+    let email = req.body.email;
+
+    const user = await userModel.findEmail(email)
+    if (user.length >= 1) {
+      res.render("auth/register", {msg: `${email} already exists.`});
+    } else {
+      await userModel.addUser(email, req.body.first_name, req.body.last_name, req.body.password);
       res.redirect("/login");
-    }else{
-    let newUser = user.split("@")[0];
-    database[newUser] = {
-      id : maxId + 1,
-      email : user,
-      password : password,
-      reminders: []
     }
-    console.log(database);
-    res.redirect("/login");
-  }
   }
 };
 
